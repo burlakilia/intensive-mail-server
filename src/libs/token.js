@@ -2,11 +2,11 @@ const request = require('request-promise');
 
 const REFRESH_TIME = 1000 * 60 * 60;
 
-class PddToken {
+exports.PddToken = class PddToken {
 
-  constructor() {
-    this.token = process.env.PDD_TOKEN;
-    console.log('token found', process.env.PDD_TOKEN);
+  start(token) {
+    this.token = token;
+    console.log('token found', this.token);
 
     this.refresh().then(() => {
       console.log('token refreshed');
