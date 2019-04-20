@@ -5,7 +5,8 @@ class AuthRoute extends Route {
 
   constructor(router) {
     super(router, 'auth');
-    this.register('get', '/signin', this.signin);
+    this.register('post', '/signin', this.signin);
+    this.register('post', '/signup', this.signin);
     this.register('get', '/password/check', this.getPasswordStrength);
     this.register('get', '/emails/free', this.getPasswordStrength);
   }
