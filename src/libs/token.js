@@ -24,5 +24,4 @@ exports.PddToken = class PddToken {
     setTimeout(() => this.refresh(), REFRESH_TIME);
   }
 
-}
-}
+};
