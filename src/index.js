@@ -9,7 +9,6 @@ const router = new Router();
 const auth = new AuthRoute(router);
 const webhooks = new WebhooksRoute(router);
 
-
 app
   .use(router.routes())
   .use(router.allowedMethods());
