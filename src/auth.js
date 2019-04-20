@@ -18,7 +18,7 @@ class AuthRoute extends Route {
   }
 
   async signin() {
-    return {heroku git:remote -a intensive-mail-server
+    return {
       token: this.saveSession({ email: 'burlakilia@bk.ru' })
     }
   }
