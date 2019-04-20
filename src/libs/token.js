@@ -14,9 +14,12 @@ exports.PddToken = class PddToken {
   }
 
   async refresh() {
-    const result = await request.post(`https://oauth.yandex.ru/token`, {
-      grant_type: 'refresh_token',
-      refresh_token: this.token
+    const result = await request.post({
+      url: `https://oauth.yandex.ru/token`,
+      fromData: {
+        grant_type: 'refresh_token',
+        refresh_token: this.token
+      }
     });
 
     consoel.log(result);
