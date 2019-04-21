@@ -9,6 +9,7 @@ exports.WebhooksRoute = class WebhooksRoute extends Route {
 
   async yandexPddWebhook(ctx) {
     console.log('yandexWebhook:', ctx.body, ctx);
+    return { ok: true };
   }
 
 }
