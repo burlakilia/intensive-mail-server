@@ -3,8 +3,8 @@ const { sessions } = require('./libs/sessions');
 
 class AuthRoute extends Route {
 
-  constructor(router) {
-    super(router, 'auth');
+  constructor(router, base, api) {
+    super(router, base, api);
     this.register('post', '/signin', this.signin);
     this.register('post', '/signup', this.signin);
     this.register('get', '/password/check', this.getPasswordStrength);
