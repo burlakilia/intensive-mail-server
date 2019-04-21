@@ -8,7 +8,7 @@ class AuthRoute extends Route {
     this.register('post', '/signin', this.signin);
     this.register('post', '/signup', this.signin);
     this.register('get', '/password/check', this.getPasswordStrength);
-    this.register('get', '/emails/free', this.getPasswordStrength);
+    this.register('get', '/emails/free', this.getFreeEmails);
   }
 
   saveSession(user) {
@@ -37,6 +37,10 @@ class AuthRoute extends Route {
   }
 
   async getFreeEmails() {
+    const data = await this.api.getAllDomains();
+
+    console.log(data);
+
     return [{
       email: 'burlaki@jstest.ru'
     }];

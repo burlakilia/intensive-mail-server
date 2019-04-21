@@ -6,4 +6,12 @@ class SystemError extends Error {
   }
 }
 
+class YandexError extends SystemError {
+  constructor(status, reasons) {
+    super(status, reasons);
+    this.message = `Yadnex error: ${this.message}`;
+  }
+}
+
 exports.SystemError = SystemError;
+exports.YandexError = YandexError;
