@@ -3,9 +3,10 @@ const { sessions } = require('./sessions');
 
 class Route {
 
-  constructor(router, base) {
+  constructor(router, base, api) {
     this.router = router;
     this.base = base;
+    this.api = api;
   }
 
   register(method, path, fn, isPrivate = false) {
