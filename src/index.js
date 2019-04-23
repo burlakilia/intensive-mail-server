@@ -10,7 +10,7 @@ const serve = require('koa-static');
 const bodyParser = require('koa-bodyparser');
 const app = new Koa();
 const router = new Router();
-
+const cors = require('koa-cors');
 
 const pdd = new PddToken(process.env.PDD_TOKEN);
 const auth = new AuthRoute(router, 'auth', pdd);
@@ -19,6 +19,7 @@ const messages = new MessagesRoute(router, 'messages', pdd);
 const settings = new SettingsRoute(router, 'settings', pdd);
 
 app
+  .use(cors())
   .use(bodyParser())
   .use(router.routes())
   .use(router.allowedMethods())

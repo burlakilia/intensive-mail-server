@@ -22,6 +22,7 @@
     "imap": "^0.8.19",
     "koa": "^2.7.0",
     "koa-bodyparser": "^4.2.1",
+    "koa-cors": "0.0.16",
     "koa-router": "^7.4.0",
     "koa-static": "^5.0.0",
     "mailparser": "^2.6.0",

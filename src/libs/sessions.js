@@ -95,7 +95,6 @@ class Session {
             }
           });
 
-          console.log(info.which);
         });
         msg.once('attributes', function(attrs) {
           message.attrs = attrs;
@@ -113,6 +112,13 @@ class Session {
     })
   }
 
+  async parseEmail(buffer) {
+    const data = await simpleParser(buffer);
+
+
+
+    return data;
+  }
 
 
   async getMessages() {
@@ -126,7 +132,7 @@ class Session {
     const messages = [];
 
     for (const mail of mails) {
-      messages.push({ ... await simpleParser(mail.text), ...mail.headers });
+      messages.push({ ... await this.parseEmail(mail.text), ...mail.headers });
     }
 
     return {

@@ -23,7 +23,8 @@
 
             } else {
               console.log(result);
-              document.querySelector('.js-message').innerHTML = result.messages[0].subject[0];
+              document.querySelector('.js-message').innerHTML = result.messages[0].textAsHtml;
+              window.testData =  result.messages[0].textAsHtml;
             }
           }
 
