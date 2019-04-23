@@ -1,5 +1,5 @@
 const { SystemError } = require('./error');
-const { sessions } = require('./sessions');
+const sessions = require('./sessions');
 
 class Route {
 
@@ -16,27 +16,29 @@ class Route {
 
         if (isPrivate) {
           const { authorization = '' } = ctx.headers;
-          session = sessions[authorization.replace(/^Basic\s/i, '')];
+          session = sessions.get(authorization.replace(/^Basic\s/i, ''));
 
           if (!session) {
-            this.throwError('401', { auth: 'invalid' });
+            this.throwError('401', { auth: 'invalid', success: false });
           }
         }
 
         const result = await fn.call(this, ctx, session);
+        result.success = true;
         ctx.body = JSON.stringify(result);
       } catch (err) {
 
         if (err instanceof SystemError) {
           ctx.status = err.status;
           ctx.body = err.reasons;
+          ctx.body.success = false;
 
-          console.error('system error', err);
+          console.log('system error', err.reasons);
         } else {
           ctx.status = 500;
-          ctx.body = { message: err.message };
+          ctx.body = { message: err.message, success: false };
 
-          console.error('fatal error', err);
+          console.log('fatal error: ', err.message);
         }
 
       }

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Signup</title>
+    <link href="http://bemskel.com/css/bemskel/bemskel.css" rel="stylesheet"/>
+</head>
+<body style="padding: 15px" >
+    <h1>Private</h1>
+
+    <div class="js-message"></div>
+
+    <script>
+        (function () {
+          'use strict';
+
+          function complete(result) {
+            if (result.success === false) {
+
+              if (result.token === 'invalid') {
+                location.href = '/signin.html';
+              }
+
+            } else {
+              console.log(result);
+              document.querySelector('.js-message').innerHTML = result.messages[0].subject[0];
+            }
+          }
+
+          window.addEventListener('DOMContentLoaded', () => {
+            const token = localStorage.getItem('token');
+
+            if (!token) {
+              location.href = '/signin.html';
+            }
+
+            fetch('/messages', {
+              method: 'GET',
+              headers: {
+                'Authorization': 'Basic ' + token,
+                'Content-Type': 'application/json;charset=utf-8'
+              }
+            })
+              .then(res => res.json())
+              .then(complete);
+
+            fetch('/settings', {
+              method: 'GET',
+              headers: {
+                'Authorization': 'Basic ' + token,
+                'Content-Type': 'application/json;charset=utf-8'
+              }
+            })
+              .then(res => res.json())
+              .then(account => console.log(account));
+
+          });
+
+
+        })()
+
+    </script>
+</body>
+</html>

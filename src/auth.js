@@ -1,33 +1,35 @@
 const { Route } = require('./libs/route');
-const { sessions } = require('./libs/sessions');
+const sessions  = require('./libs/sessions');
+const generator = require('random-profile-generator');
+
+const COUNT = 10;
 
 class AuthRoute extends Route {
 
   constructor(router, base, api) {
     super(router, base, api);
     this.register('post', '/signin', this.signin);
-    this.register('post', '/signup', this.signin);
+    this.register('post', '/signup', this.signup);
     this.register('get', '/password/check', this.getPasswordStrength);
     this.register('get', '/emails/free', this.getFreeEmails);
   }
 
-  saveSession(user) {
-    const uid = Date.now() + '';
-    sessions[uid] = user;
-    console.log('add new session', uid, user);
-    return uid;
-  }
+  async signin(ctx) {
+    const { body } = ctx.request;
+    const account = await this.api.getAccount(body.email);
+    const token = await sessions.create(body.email, body.pwd);
 
-  async signin() {
     return {
-      token: this.saveSession({ email: 'burlakilia@bk.ru' })
+      token
     }
   }
 
-  async signup() {
-    return {
-      token: '12332414',
-    }
+  async signup(ctx) {
+    const { body } = ctx.request;
+    const result = await this.api.createAccount(body);
+    const token = await sessions.create(result.email, result.pwd);
+
+    return { token };
   }
 
   async verify() {
@@ -37,13 +39,17 @@ class AuthRoute extends Route {
   }
 
   async getFreeEmails() {
-    const data = await this.api.getAllDomains();
+    const accounts = await this.api.getAccounts();
+    const { domains } = await this.api.getDomains();
+    const result = [];
 
-    console.log(data);
+    console.log('exist accounts', accounts);
 
-    return [{
-      email: 'burlaki@jstest.ru'
-    }];
+    while (result.length < COUNT) {
+      result.push(generator.profile().email.replace(/\@(.*)$/i, `@${domains[0].name}`));
+    }
+
+    return result;
   }
 
   async getPasswordStrength() {

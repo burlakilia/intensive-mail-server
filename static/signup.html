@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Signup</title>
+    <link href="http://bemskel.com/css/bemskel/bemskel.css" rel="stylesheet"/>
+</head>
+<body style="padding: 15px" >
+    <h1>Signup</h1>
+    <form class="js-signup-form">
+        <div class="row">
+            <div class="col col--6">
+                <label for="NameInput">Login</label>
+                <input class="u-full-width" type="text"  name="name" placeholder="Ilia Burlak" id="NameInput">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col--6">
+                <label for="PasswordInput">Password</label>
+                <input class="u-full-width" type="password" name="pwd" placeholder="pwd" id="PasswordInput">
+            </div>
+        </div>
+
+        <input class="btn btn--primary" type="submit" value="Submit">
+
+        <div class="row js-signup-error" style="color: red;" hidden="hidden">
+        </div>
+    </form>
+
+    <script>
+        (function () {
+          'use strict';
+
+          const form = document.querySelector('.js-signup-form');
+          const error = document.querySelector('.js-signup-error');
+
+          function complete(result) {
+            if (result.success === false) {
+              error.innerHTML = result.message;
+              error.hidden = false;
+              console.log(result, 'ERROR');
+            } else {
+              console.log(result, 'OK');
+              localStorage.setItem('token', result.token);
+              location.href = '/messages.html';
+            }
+          }
+
+          form.addEventListener('submit', event => {
+            error.hidden = true;
+
+            const data = {
+              name: event.target.name.value,
+              pwd: event.target.pwd.value
+            };
+
+            fetch('/auth/signup', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+              },
+              body: JSON.stringify(data)
+            })
+              .then(res => res.json())
+              .then(complete);
+
+            event.preventDefault();
+          })
+
+        })()
+
+    </script>
+</body>
+</html>
