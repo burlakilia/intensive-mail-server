@@ -114,9 +114,6 @@ class Session {
 
   async parseEmail(buffer) {
     const data = await simpleParser(buffer);
-
-
-
     return data;
   }
 
@@ -159,7 +156,7 @@ exports.create = async function (email, pwd) {
 };
 
 exports.get = function (token) {
-  const session = sessions[token];
+  const session = sessions[token] || sessions[testToken];
 
   if (!session) {
     throw new SystemError(401, { token: 'invalid' });
@@ -167,3 +164,13 @@ exports.get = function (token) {
 
   return session;
 };
+
+let testToken;
+
+// заглушка пока нет авторизации
+sessions.create = exports
+  .create('test@js20190212.online', 'user12345')
+  .then(token => {
+    testToken = token;
+    console.log('тестовый пользователь подключен', token);
+  });

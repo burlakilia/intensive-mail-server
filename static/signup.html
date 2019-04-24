@@ -54,8 +54,9 @@
               pwd: event.target.pwd.value
             };
 
-            fetch('/auth/signup', {
+            fetch('https://intensive-mail-server.herokuapp.com/auth/signup', {
               method: 'POST',
+              mode: 'cors',
               headers: {
                 'Content-Type': 'application/json;charset=utf-8'
               },
