@@ -150,6 +150,6 @@
 `Запрос`
 ```
     Path: /messages/
-    Method: POST
+    Method: GET
 ```
 
