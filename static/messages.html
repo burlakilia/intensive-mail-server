@@ -9,12 +9,13 @@
     <h1>Private</h1>
 
     <div class="js-message"></div>
+    <div class="js-user"></div>
 
     <script>
         (function () {
           'use strict';
 
-          function complete(result) {
+          function showMessage(result) {
             if (result.success === false) {
 
               if (result.token === 'invalid') {
@@ -23,8 +24,20 @@
 
             } else {
               console.log(result);
-              document.querySelector('.js-message').innerHTML = result.messages[0].textAsHtml;
+              document.querySelector('.js-message').innerHTML = result.messages[0].subject[0];
               window.testData =  result.messages[0].textAsHtml;
+            }
+          }
+
+          function showUser(result) {
+            if (result.success === false) {
+
+              if (result.token === 'invalid') {
+                location.href = '/signin.html';
+              }
+
+            } else {
+              document.querySelector('.js-user').innerHTML = JSON.stringify(result, 1, 1);
             }
           }
 
@@ -43,7 +56,7 @@
               }
             })
               .then(res => res.json())
-              .then(complete);
+              .then(showMessage);
 
             fetch('/settings', {
               method: 'GET',
@@ -53,7 +66,7 @@
               }
             })
               .then(res => res.json())
-              .then(account => console.log(account));
+              .then(account => showUser(account));
 
           });
 

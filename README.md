@@ -153,3 +153,9 @@
     Method: GET
 ```
 
+## Примеры
+
+
+- [Авторизация](https://intensive-mail-server.herokuapp.com/signin.html)
+- [Регистрация](https://intensive-mail-server.herokuapp.com/signup.html)
+- [Список писем и настройки](https://intensive-mail-server.herokuapp.com/messages.html)
